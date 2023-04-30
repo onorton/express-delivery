@@ -20,6 +20,7 @@ public class PointToTarget : MonoBehaviour
     private Image _image;
 
     private Vector2 _sizeDelta;
+    private Vector2 _originalPosition;
 
 
     private void Start()
@@ -30,6 +31,7 @@ public class PointToTarget : MonoBehaviour
         FindObjectOfType<EventBus>().OnReachingTarget += ReachedTarget;
         _image = GetComponent<Image>();
         _sizeDelta = _pointerTransform.sizeDelta;
+        _originalPosition = _pointerTransform.position;
     }
 
     private void NewTargetPicked(Target target)
@@ -55,9 +57,11 @@ public class PointToTarget : MonoBehaviour
         }
         else
         {
+            _pointerTransform.position = _originalPosition;
             var worldPoint = _camera.ScreenToWorldPoint(_pointerTransform.position);
             _pointerTransform.rotation = Quaternion.FromToRotation(Vector2.up, new Vector2(_target.position.x, _target.position.y) - new Vector2(worldPoint.x, worldPoint.y));
             _pointerTransform.sizeDelta = _sizeDelta;
+
         }
     }
 

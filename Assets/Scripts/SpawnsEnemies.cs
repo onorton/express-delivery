@@ -53,11 +53,12 @@ public class SpawnsEnemies : MonoBehaviour
     {
         while (true)
         {
-            var offset = (float)(2.0 * new System.Random().NextDouble() - 1.0) * yRange;
+            var random = new System.Random();
+            var offset = (float)(2.0 * random.NextDouble() - 1.0) * yRange;
             var enemy = Instantiate(_enemy, new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), Quaternion.identity);
             enemy.GetComponent<Flying>().Direction = _direction;
             _spawnedEnemies.Add(enemy.transform);
-            yield return new WaitForSeconds(_timeBetweenSpawnsSeconds);
+            yield return new WaitForSeconds(_timeBetweenSpawnsSeconds + (float)(2.0 * random.NextDouble() - 1.0) * 0.25f);
         }
 
     }
